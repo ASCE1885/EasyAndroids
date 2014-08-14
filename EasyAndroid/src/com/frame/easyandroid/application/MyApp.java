@@ -1,6 +1,7 @@
 package com.frame.easyandroid.application;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 
 import com.frame.easyandroid.biz.MyCrashHandler;
@@ -9,15 +10,22 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+/**
+ * 全局Application
+ * 
+ * @author zhao.liu
+ * 
+ */
 @SuppressWarnings("unused")
 public class MyApp extends Application {
 	private ImageLoader imageLoader;
 	private ImageLoaderConfiguration config;
+	public static Context appContext;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
+		appContext = this;
 		/**
 		 * 实现程序异常终止时候优雅的关闭以及重新启动app
 		 */
@@ -48,5 +56,14 @@ public class MyApp extends Application {
 		intent.setAction("Low_Memory_Kill");
 		sendBroadcast(intent);
 		super.onLowMemory();
+	}
+
+	/**
+	 * 向外提供获取全局Context方法
+	 * 
+	 * @return
+	 */
+	public static Context getContext() {
+		return appContext;
 	}
 }

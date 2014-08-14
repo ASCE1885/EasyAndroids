@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
+import com.frame.easyandroid.application.MyApp;
+
 /**
  * 常用的工具类集合！
  * 
@@ -12,6 +14,12 @@ import android.widget.Toast;
  * 
  */
 public class Utils {
+	private static Toast mToast;
+
+	static {
+		mToast = Toast.makeText(MyApp.getContext(), "", Toast.LENGTH_SHORT);
+	}
+
 	/**
 	 * 判断SD卡是否存在！
 	 * 
@@ -23,8 +31,8 @@ public class Utils {
 	}
 
 	/**
-	 * 判断当前用户手机有没有网络
-	 * (wifi and traffic)
+	 * 判断当前用户手机有没有网络 (wifi and traffic)
+	 * 
 	 * @param context
 	 * @return
 	 */
@@ -42,11 +50,11 @@ public class Utils {
 	/**
 	 * 弹出Toast的工具类
 	 * 
-	 * @param context
 	 * @param msg
 	 */
-	public static void toastShow(Context context, String msg) {
-		Toast.makeText(context, msg,  Toast.LENGTH_LONG).show();
+	public static void toastShow(String msg) {
+		mToast.setText(msg);
+		mToast.show();
 	}
 
 	/**
@@ -55,8 +63,9 @@ public class Utils {
 	 * @param context
 	 * @param msg
 	 */
-	public static void toastShow(Context context, int id) {
-		Toast.makeText(context, id,  Toast.LENGTH_LONG).show();
+	public static void toastShow(int id) {
+		mToast.setText(MyApp.getContext().getString(id));
+		mToast.show();
 	}
 
 	/**
