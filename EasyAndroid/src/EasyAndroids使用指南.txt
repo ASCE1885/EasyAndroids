@@ -1,12 +1,15 @@
 EasyAndroids框架使用指南，欢迎Fork And Commit，技术不分国界，开源成就未来！
 
-EasyAndroids是一个开源的快速开发框架，是我在日常开发中的积累以及思索！这套框架包含了很多的常用工具类，以及封装简化的思维。直接将EasyAndroids拿来作为基础进行一般的Android开发是没有问题的，学习其中的代码思维也是可以的！这个框架我将会日后进行长期的完善与更新。鉴于本人水平所限，难免有错误或者是冗余的情况，欢迎大家指正修改，共同进步！
+EasyAndroids是一个开源的快速开发框架，是我在日常开发中的积累以及思索！这套框架包含了很多的常用工具集，以及封装简化的思维。直接将EasyAndroids拿来作为基础进行一般的Android开发是没有问题的，学习其中的代码思维也是可以的！这个框架我将会日后进行长期的完善与更新。鉴于本人水平所限，难免有错误或者是冗余的情况，欢迎大家指正修改，共同进步！
 
 简介：
 1.BaseActivity的抽取；
-2.Sqlite数据库的封装；
+2.注解实现的Sqlite数据库的封装；
 3.全局的细节管理；
-4.常用开源框架的集成；
+4.常用开源框架的集成；例如Json解析、
+5.工具类：IO、File、Log、UI、View、Drawable等的常用常用封装；安全、健壮；
+6.基于线程池的Http请求、处理封装；
+7.图片加载的简化以及与之相关的内存处理；
 
 具体：
 1.BaseActivity的抽取，抽象方法：
@@ -14,7 +17,8 @@ EasyAndroids是一个开源的快速开发框架，是我在日常开发中的�
 fillData()进行数据的获取；
 setListener()进行控件的监听！
 showLayoutView()每一个界面真实的布局（不再使用setContentView）；
-getViewById()：获取控件的实例对象的通用方法，避免每一次的强转！全局的快速退出
+getViewById()：获取控件的实例对象的通用方法，避免每一次的强转！
+全局的快速退出
 2.Adapter的封装与强化：接受一个参数List<T>设置抽象getViewItem()方法强制调用者覆写，一般性的操作不再重复的写！实现：往顶部与底部添加数据信息！
 3.设置全局的Application，实现程序异常终止时候的优雅关闭并且实现程序的重启，提升用户体验！低内存的时候发送广播，强制回收内存空间，避免OOM异常！
 4.数据库的封装，使用泛型、注解将JavaBean对象属性与数据库表的各列进行对应，不写SQL语句，方便简单的实现CRUD操作！
@@ -27,7 +31,6 @@ getViewById()：获取控件的实例对象的通用方法，避免每一次的�
 11.SharedPreference的方便使用！
 12.全局的提示管理！
 
-注意事项：1.getViewById()这个避免强转的方法的调用者必须是全局层次的布局，ListView中Item的View不可以使用！
-2.覆写BaseActivity实现抽象方法showLayoutView()，返回一个布局，这就相当于设置了setContentView();
-3.使用数据库封装的时候需要确保：JavaBean对象的属性与数据库表各列一一对应！
-4.不管使用哪种方式加载图片进行try catch的包裹，OutOfMemoryError！是错误，不是异常，使用Exception包裹还是无法捕获！
+注意事项：1.覆写BaseActivity实现抽象方法showLayoutView()，返回一个布局，这就相当于设置了setContentView();
+2.使用数据库封装的时候需要确保：JavaBean对象的属性与数据库表各列一一对应！
+3.不管使用哪种方式加载图片进行try catch的包裹，OutOfMemoryError！是错误，不是异常，使用Exception包裹还是无法捕获的！
