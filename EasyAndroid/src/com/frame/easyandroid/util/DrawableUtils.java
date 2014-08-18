@@ -8,6 +8,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.frame.easyandroid.R;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -24,14 +28,17 @@ import android.graphics.RectF;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 
 /**
- * 关于图片的工具类
+ * 关于图片操作的工具类；压缩，转换；方便的图片读取，缓存等
  * 
  * @author liuzhao
  * 
  */
-public class ImageUtils {
+public class DrawableUtils {
 
 	/**
 	 * 根据需要（传递的参数）从网上获取合适的压缩图片。 这个方法包含：1.假解析；获取合适的一个InSampleSize。不需要分配内存！
@@ -39,8 +46,10 @@ public class ImageUtils {
 	 * 
 	 * @param data
 	 *            byte信息
-	 * @param offset 起点
-	 * @param length 全部长度
+	 * @param offset
+	 *            起点
+	 * @param length
+	 *            全部长度
 	 * @param reqWidth
 	 *            期望压缩后的宽度
 	 * @param reqHeight
@@ -518,4 +527,86 @@ public class ImageUtils {
 		}
 		return flag;
 	}
+
+	/**
+	 * 创建一个图片
+	 * 
+	 * @param contentColor
+	 *            内部填充颜色
+	 * @param strokeColor
+	 *            描边颜色
+	 * @param radius
+	 *            圆角
+	 */
+	public static GradientDrawable createDrawable(int contentColor,
+			int strokeColor, int radius) {
+		GradientDrawable drawable = new GradientDrawable(); // 生成Shape
+		drawable.setGradientType(GradientDrawable.RECTANGLE); // 设置矩形
+		drawable.setColor(contentColor);// 内容区域的颜色
+		drawable.setStroke(1, strokeColor); // 四周描边,描边后四角真正为圆角，不会出现黑色阴影。如果父窗体是可以滑动的，需要把父View设置setScrollCache(false)
+		drawable.setCornerRadius(radius); // 设置四角都为圆角
+		return drawable;
+	}
+
+	/**
+	 * 创建一个图片选择器
+	 * 
+	 * @param normalState
+	 *            普通状态的图片
+	 * @param pressedState
+	 *            按压状态的图片
+	 */
+	public static StateListDrawable createSelector(Drawable normalState,
+			Drawable pressedState) {
+		StateListDrawable bg = new StateListDrawable();
+		bg.addState(new int[] { android.R.attr.state_pressed,
+				android.R.attr.state_enabled }, pressedState);
+		bg.addState(new int[] { android.R.attr.state_enabled }, normalState);
+		bg.addState(new int[] {}, normalState);
+		return bg;
+	}
+
+	/**
+	 * 获取图片的内存占用大小
+	 * 
+	 */
+	@SuppressLint("NewApi")
+	public static int getDrawableSize(Drawable drawable) {
+		if (drawable == null) {
+			return 0;
+		}
+		Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+			return bitmap.getByteCount();
+		} else {
+			return bitmap.getRowBytes() * bitmap.getHeight();
+		}
+	}
+
+	/**
+	 * 获取压缩之后的图片
+	 * 
+	 * @param context
+	 * @param resId
+	 *            res下资源图片的id
+	 * @param reqWidth
+	 *            期望的宽度
+	 * @param reqHeight
+	 *            期望的高度
+	 * @return
+	 */
+	public static Bitmap getImageCompress(Context context, int resId,
+			int reqWidth, int reqHeight) {
+		Bitmap bitmap = null;
+		try {
+			bitmap = DrawableUtils.decodeSampledBitmapFromResource(
+					context.getResources(), resId, reqWidth, reqHeight);
+		} catch (OutOfMemoryError e) {
+			bitmap = BitmapFactory.decodeResource(context.getResources(),
+					R.drawable.ic_launcher);
+			e.printStackTrace();
+		}
+		return bitmap;
+	}
+
 }

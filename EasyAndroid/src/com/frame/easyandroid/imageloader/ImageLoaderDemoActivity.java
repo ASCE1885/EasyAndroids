@@ -12,9 +12,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.frame.easyandroid.BaseActivity;
 import com.frame.easyandroid.R;
 import com.frame.easyandroid.adapter.EasyAdapter;
+import com.frame.easyandroid.base.BaseActivity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
@@ -30,7 +30,6 @@ public class ImageLoaderDemoActivity extends BaseActivity {
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 	@Override
 	protected int showLayoutView() {
-
 		return R.layout.image_loader;
 	}
 

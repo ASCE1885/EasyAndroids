@@ -5,6 +5,12 @@ import com.frame.easyandroid.db.dao.aonntation.Column;
 import com.frame.easyandroid.db.dao.aonntation.ID;
 import com.frame.easyandroid.db.dao.aonntation.Table;
 
+/**
+ * 实验数据库操作的实体类
+ * 
+ * @author zhao.liu
+ * 
+ */
 @Table(DBHelper.TABLE_BOOK)
 public class Book {
 	@ID(autoIncreament = true)

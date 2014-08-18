@@ -4,6 +4,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * 数据库的管理类
+ * 
+ * @author zhao.liu
+ * 
+ */
 public class DBHelper extends SQLiteOpenHelper {
 
 	public static final String DBNAME = "EasyAndroid.db";

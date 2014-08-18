@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
-import com.frame.easyandroid.application.MyApp;
+import com.frame.easyandroid.application.BaseApplication;
 
 /**
  * 常用的工具类集合！
@@ -17,7 +17,8 @@ public class Utils {
 	private static Toast mToast;
 
 	static {
-		mToast = Toast.makeText(MyApp.getContext(), "", Toast.LENGTH_SHORT);
+		mToast = Toast.makeText(BaseApplication.getContext(), "",
+				Toast.LENGTH_SHORT);
 	}
 
 	/**
@@ -54,7 +55,7 @@ public class Utils {
 	 */
 	public static void toastShow(String msg) {
 		mToast.setText(msg);
-		mToast.show();
+		show();
 	}
 
 	/**
@@ -64,8 +65,24 @@ public class Utils {
 	 * @param msg
 	 */
 	public static void toastShow(int id) {
-		mToast.setText(MyApp.getContext().getString(id));
-		mToast.show();
+		mToast.setText(UIUtils.getString(id));
+		show();
+	}
+
+	/**
+	 * 弹出Toast核心的方法，这是一个线程安全的方法，直接调用即可！
+	 */
+	private static void show() {
+		if (UIUtils.isRunInMainThread()) {
+			mToast.show();
+		} else {
+			UIUtils.post(new Runnable() {
+				@Override
+				public void run() {
+					mToast.show();
+				}
+			});
+		}
 	}
 
 	/**

@@ -4,46 +4,35 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Date;
-
-import org.apache.commons.lang3.time.DateFormatUtils;
 
 import android.os.Environment;
 import android.util.Log;
 
-public class Logger {
-	private static int LOGLEVEL = 6;
-	private static int VERBISE = 1;
-	private static int DEBUG = 2;
-	private static int INFO = 3;
-	private static int WARN = 4;
-	private static int ERROR = 5;
+import com.frame.easyandroid.biz.AppModel;
+import com.frame.easyandroid.biz.Constant;
 
+/**
+ * 全局的Log管理：通过LOGLEVEL的设置实现Log的管理！
+ * 
+ * @author zhao.liu
+ * 
+ */
+public class Logger {
+
+	/**
+	 * 控制是否将程序出错信息保存到手机SD卡！开发完成之后需要将这个值更改为false
+	 */
+	private static boolean flag = AppModel.getIfSave2Sd();
+	private static int LOGLEVEL = AppModel.getLogLevel();
+	private static int VERBISE = 1;
+	private static int DEBUG = VERBISE + 1;
+	private static int INFO = VERBISE + 2;
+	private static int WARN = VERBISE + 3;
+	private static int ERROR = VERBISE + 4;
 	// 根据需要将Log存放到SD卡中
 	private static String path;
-	private static File file;
 	private static FileOutputStream outputStream;
-	private static String pattern = "yyyy-MM-dd HH:mm:ss";
-
-	static {
-		if (Utils.checkSD()) {
-			File externalStorageDirectory = Environment
-					.getExternalStorageDirectory();
-			path = externalStorageDirectory.getAbsolutePath() + "/Log/";
-			File directory = new File(path);
-			if (!directory.exists()) {
-				directory.mkdirs();
-			}
-			file = new File(new File(path), "Log.txt");
-			try {
-				outputStream = new FileOutputStream(file, true);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 
 	public static void v(String tag, String msg) {
 		if (LOGLEVEL > VERBISE) {
@@ -57,9 +46,17 @@ public class Logger {
 		}
 	}
 
+	public static void i(String msg) {
+		if (LOGLEVEL > INFO) {
+			Log.i("lz", msg);
+			// save2Sd(msg);// 保存所以Log信息，主要是看下友盟的统计是否正常！
+		}
+	}
+
 	public static void i(String tag, String msg) {
 		if (LOGLEVEL > INFO) {
 			Log.i(tag, msg);
+			// save2Sd(msg);// 保存所以Log信息，主要是看下友盟的统计是否正常！
 		}
 	}
 
@@ -75,53 +72,51 @@ public class Logger {
 		}
 	}
 
+	static {
+		if (Environment.getExternalStorageState().equals(
+				Environment.MEDIA_MOUNTED)
+				&& AppModel.getIfDebug()) {
+			path = Constant.App_Path + "/log/";
+			File file_Path = new File(path);
+			file_Path.mkdirs();
+			File file = new File(path, "log.txt");
+			if (!file.exists()) {
+				try {
+					file.createNewFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			try {
+				outputStream = new FileOutputStream(file, true);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	/**
-	 * 将错误信息保存到SD卡中去！可选的操作！
+	 * 将错误信息保存到SD卡中去！可选的操作！ 这些并没有使用FileUtils，因为只是简单的，可选的操作；（路径已定）
 	 * 
 	 * @param msg
-	 *            传递的String类型
 	 */
+	@SuppressWarnings("deprecation")
 	public static void save2Sd(String msg) {
-		Date date = new Date();
-		String time = DateFormatUtils.format(date, pattern);
-		save(time, msg);
-	}
-
-	/**
-	 * 将错误信息保存到SD卡中去！可选的操作！
-	 * 
-	 * @param e
-	 *            传递的是Exception类型
-	 */
-	public static void save2Sd(Exception e) {
-		Date date = new Date();
-		String time = DateFormatUtils.format(date, pattern);
-		StringWriter writer = new StringWriter();
-		PrintWriter pw = new PrintWriter(writer);
-		e.printStackTrace(pw);
-		String msg = writer.toString();
-		save(time, msg);
-	}
-
-	/**
-	 * 保存的核心方法
-	 * @param time 保存的时间
-	 * @param msg 保存的信息
-	 */
-	private static void save(String time, String msg) {
-		if (Utils.checkSD()) {
-			if (outputStream != null) {
-				try {
-					outputStream.write(time.getBytes());
-					outputStream.write("\r\n".getBytes());
-					outputStream.write(msg.getBytes());
-					outputStream.write("\r\n".getBytes());
-					outputStream.flush();
-				} catch (IOException ex) {
-					ex.printStackTrace();
+		if (flag) {
+			Date date = new Date();
+			String time = date.toLocaleString();
+			if (Environment.getExternalStorageState().equals(
+					Environment.MEDIA_MOUNTED)) {
+				if (outputStream != null) {
+					try {
+						outputStream.write(time.getBytes());
+						outputStream.write(msg.getBytes());
+						outputStream.write("\r\n".getBytes());
+						outputStream.flush();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
-			} else {
-				android.util.Log.i("SDCAEDTAG", "file is null");
 			}
 		}
 	}

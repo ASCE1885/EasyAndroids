@@ -1,4 +1,4 @@
-package com.frame.easyandroid.util;
+package com.frame.easyandroid.biz;
 
 import java.util.Properties;
 

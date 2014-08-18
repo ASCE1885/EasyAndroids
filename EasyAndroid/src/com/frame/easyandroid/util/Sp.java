@@ -6,6 +6,7 @@ import android.content.SharedPreferences.Editor;
 
 /**
  * SharedPreferences的工具类：一行代码完成操作！
+ * 
  * @author liuzhao
  */
 public class Sp {

@@ -9,6 +9,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 /**
  * 使用AsyncHttpClient进行联网操作的一个Demo！
+ * 或者是现在使用Volley也很方便
  * 
  * @author liuzhao
  * 

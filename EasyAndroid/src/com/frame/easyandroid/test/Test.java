@@ -11,6 +11,7 @@ import com.frame.easyandroid.util.Logger;
 
 /**
  * 测试框架，ManiFest中已经注册，直接使用
+ * 
  * @author liuzhao
  * 
  */

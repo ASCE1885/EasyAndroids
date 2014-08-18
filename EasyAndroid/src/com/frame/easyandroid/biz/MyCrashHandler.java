@@ -14,6 +14,13 @@ import android.os.Build;
 import com.frame.easyandroid.MainActivity;
 import com.frame.easyandroid.util.Logger;
 
+/**
+ * 对应用全局未捕获异常的处理核心类，在这里实现优雅的关闭以及应用程序的重启，获得良好的用户体验！
+ * 还可以收集用户的使用版本信息、机型信息等
+ * 
+ * @author zhao.liu
+ * 
+ */
 public class MyCrashHandler implements UncaughtExceptionHandler {
 	private Context context;
 	private static MyCrashHandler handler;

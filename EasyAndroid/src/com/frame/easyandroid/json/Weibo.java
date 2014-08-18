@@ -1,5 +1,10 @@
 package com.frame.easyandroid.json;
 
+/**
+ * 常量类：辅助验证FastJson使用
+ * 
+ * @author zhao.liu
+ */
 class Weibo {
 	private String id;
 	private String city;

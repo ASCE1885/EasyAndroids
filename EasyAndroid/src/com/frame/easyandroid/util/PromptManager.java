@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.frame.easyandroid.R;
 
 /**
- * Dialog显示的工具类
+ * Dialog显示的工具类；可以在此扩展
  * 
  * @author liuzhao
  * 

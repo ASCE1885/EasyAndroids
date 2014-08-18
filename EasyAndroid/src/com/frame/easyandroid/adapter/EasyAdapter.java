@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 /**
- * 基础适配器
- * @author liuzhao 
- * @param <T> 泛型
+ * 基础适配器 可以在此基础上扩展，可以配合这个使用协议，更加的简单方便
+ * 
+ * @author liuzhao
+ * @param <T>
+ *            泛型
  */
 public abstract class EasyAdapter<T> extends BaseAdapter {
 	private List<T> mlist = new ArrayList<T>();
@@ -19,20 +21,23 @@ public abstract class EasyAdapter<T> extends BaseAdapter {
 		super();
 		this.mlist = list;
 	}
+
 	/**
 	 * 往顶部添加数据
+	 * 
 	 * @param list
 	 */
-	public void add2Head(List<T> list){
+	public void add2Head(List<T> list) {
 		mlist.addAll(0, list);
 		notifyDataSetChanged();
 	}
-	
+
 	/**
 	 * 往底部添加数据
+	 * 
 	 * @param list
 	 */
-	public void add2Bottom(List<T> list){
+	public void add2Bottom(List<T> list) {
 		mlist.addAll(list);
 		notifyDataSetChanged();
 	}
@@ -63,6 +68,7 @@ public abstract class EasyAdapter<T> extends BaseAdapter {
 
 	/**
 	 * 抽象方法，强制调用者覆写！
+	 * 
 	 * @param position
 	 * @param convertView
 	 * @param parent
