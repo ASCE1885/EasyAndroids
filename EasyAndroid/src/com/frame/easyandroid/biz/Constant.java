@@ -1,5 +1,7 @@
 package com.frame.easyandroid.biz;
 
+import com.frame.easyandroid.util.PackageUtils;
+
 import android.os.Environment;
 
 /**
@@ -20,6 +22,8 @@ public class Constant {
 	 * Hncj统一的SD路径；使用时在这个目录下创建文件夹；
 	 */
 	public static String App_Path = Environment.getExternalStorageDirectory()
-			.getAbsolutePath() + "/Android/data/";
+			.getAbsolutePath()
+			+ "/Android/data/"
+			+ PackageUtils.getPackageName();
 
 }

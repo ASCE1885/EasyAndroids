@@ -6,7 +6,7 @@ EasyAndroids是一个开源的快速开发框架，是我在日常开发中的�
 1.BaseActivity的抽取；
 2.注解实现的Sqlite数据库的封装；
 3.全局的细节管理；
-4.常用开源框架的集成；例如Json解析、
+4.常用开源框架的集成；例如Json解析、AsyncHttpClient等；
 5.工具类：IO、File、Log、UI、View、Drawable等的常用常用封装；安全、健壮；
 6.基于线程池的Http请求、处理封装；
 7.图片加载的简化以及与之相关的内存处理；
